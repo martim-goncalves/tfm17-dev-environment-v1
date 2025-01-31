@@ -1,0 +1,15 @@
+# Change Log
+All notable changes to this project will be documented in this file.
+ 
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
+ 
+## [0.0.0] - 2025-01-31
+ 
+### Added
+- [TFM17-DEV-ENVIRONMENT-V1]() 
+  MAJOR Created the base for the development environment.
+ 
+### Changed
+ 
+### Fixed

@@ -1,0 +1,2 @@
+# TFM17 - Development Environment V1
+This project encapsulates the configuration of a portable development environment for TFM17. It aims to facilitate work on a functional prototype for mapping caves using stereoscopy. The stereoscopic sensor used to achieve this goal was initially determined to be the ZED 2 camera. This choice was made due to equipment availability. While that may be subject to change in future iterations of the project, this environment will always be configured to support the ZED SDK as a baseline.

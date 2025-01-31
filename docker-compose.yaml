@@ -1,0 +1,12 @@
+services:
+
+  # Container to house the cave mapping prototype
+  mapper:
+    image: tfm17-dev-env-v1
+    container_name: tfm17-mapper
+    # volumes:
+    #   - ../tfm17-code:/opt/tfm17-code
+    # ports:
+    #   - '222:22'
+
+  # TODO Container for long term data storage
