@@ -1,0 +1,4 @@
+# _____________________________________________________________________________
+# Use Stereolabs ZED SDK 4.2.3 base image with CUDA 11.8 and Ubuntu 22.04
+FROM stereolabs/zed:4.2-devel-cuda11.8-ubuntu22.04
+
