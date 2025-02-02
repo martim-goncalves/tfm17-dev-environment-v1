@@ -1,12 +1,27 @@
+version: "3.8"
+
 services:
 
   # Container to house the cave mapping prototype
   mapper:
     image: tfm17-dev-env-v1
+    runtime: nvidia
+    network_mode: host
+    ipc: host
+    pid: host
+    privileged: true
+    environment:
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - DISPLAY=${DISPLAY}
     container_name: tfm17-mapper
-    # volumes:
-    #   - ../tfm17-code:/opt/tfm17-code
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /dev:/dev:rw
+      - /dev/shm:/dev/shm:rw
+      - /usr/local/zed/resources:/usr/local/zed/resources:rw
+      - /usr/local/zed/settings:/usr/local/zed/settings:rw
     # ports:
     #   - '222:22'
+    command: nvidia-smi
 
   # TODO Container for long term data storage

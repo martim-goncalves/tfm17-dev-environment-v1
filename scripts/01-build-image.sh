@@ -7,14 +7,20 @@ function usage() {
 }
 
 if [ "$#" -lt 1 ]; then
-    usage()
+    usage
     exit 1
 fi
+
+echo -e "\nRunning multi-step Docker image build process:"
+echo -e "    1. Build the 'zed-ros2-wrapper' image."
+echo -e "    2. Build the 'tfm17-dev-env-v1' image from the 'zed-ros2-wrapper' image as base."
 
 # _____________________________________________________________________________
 # Build `zed-ros2-wrapper` image
 
-cd ($dirname $0)
+cd $(dirname "$0")
+PWD=$(pwd)
+echo -e "\n(WKDIR) :: ${PWD}\n"
 
 DOCKERDIR=../zed-ros2-wrapper/docker
 DESKTOP_SCRIPT="desktop_build_dockerfile_from_sdk_ubuntu_and_cuda_version.sh"
@@ -33,15 +39,19 @@ elif [ "$1" = "jetson" ]; then
     $SCRIPT $L4T $ZEDSDK
 else 
     echo -e "Invalid argument: $1"
-    usage()
+    usage
 fi
 
 # _____________________________________________________________________________
 # Build tfm17-dev-env-v1 image 
 
-cd ($dirname $0)
+cd $(dirname "$0")
+PWD=$(pwd)
+echo -e "\n(WKDIR) :: ${PWD}\n"
 
 DOCKERDIR="../docker"
 DOCKERFILE="Dockerfile.tfm17-dev-env-v1"
+
+echo -e "[TODO] :: Continue build from ${DOCKERDIR}/${DOCKERFILE}"
 
 # TODO docker build
