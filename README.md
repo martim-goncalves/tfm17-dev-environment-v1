@@ -15,6 +15,12 @@ cd tfm17-dev-environment-v1
 git submodule update --init --recursive
 ```
 
+If the submodule is not correctly marked, try:
+```bash
+git submodule deinit -f -- ./zed-ros2-wrapper
+git submodule update --init --recursive
+```
+
 Don't forget to ensure all scripts inside it are made executable! Otherwise, permission will be denied.
 ```bash
 chmod -R +x ~/tfm17-dev-environment-v1
