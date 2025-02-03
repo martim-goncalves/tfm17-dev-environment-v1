@@ -14,3 +14,15 @@ git clone https://github.com/martim-goncalves/tfm17-dev-environment-v1.git
 cd tfm17-dev-environment-v1
 git submodule update --init --recursive
 ```
+
+Don't forget to ensure all scripts inside it are made executable! Otherwise, permission will be denied.
+```bash
+chmod -R +x ~/tfm17-dev-environment-v1
+```
+
+## Checking for installations
+
+```bash
+nvidia-smi
+ros2 pkg list | grep octomap
+```

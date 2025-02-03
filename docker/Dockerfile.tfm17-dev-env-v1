@@ -1,4 +1,54 @@
-# _____________________________________________________________________________
 # Use Stereolabs ZED SDK 4.2.3 base image with CUDA 11.8 and Ubuntu 22.04
-FROM stereolabs/zed:4.2-devel-cuda11.8-ubuntu22.04
+FROM zed_ros2_desktop_u22.04_sdk_4.2.3_cuda_12.6.3:latest
 
+# Install X11 utils
+RUN apt update && apt install x11-xserver-utils -y
+
+# [NOTE] :: There are 3 alternatives for OctoMap installation.
+
+# _____________________________________________________________________________
+# 1. ROS 2 OctoMap package installation for ease of use:
+#     - Does not allow editing;
+#     - Managed by its own ROS 2 packages (no standalone installation).
+
+# Install ROS 2 OctoMap packages
+RUN apt-get update && apt-get install -y \
+    ros-humble-octomap \
+    ros-humble-octomap-ros \
+    ros-humble-octomap-mapping \
+    ros-humble-octomap-server
+
+
+# _____________________________________________________________________________
+# 2. Build OctoMap library packages for ROS 2 from source for extension
+#     - Allows editing;
+#     - Packages cloned to and built directly in the workspace.
+
+# WORKDIR /root/ros2_ws/src
+
+# RUN git clone https://github.com/OctoMap/octomap.git && \
+#     git clone https://github.com/OctoMap/octomap_msgs.git && \ 
+#     git clone https://github.com/OctoMap/octomap_ros.git
+
+# WORKDIR /root/ros2_ws
+
+# RUN . /opt/ros/$ROS_DISTRO/setup.bash && colcon build --symlink-install
+
+
+# _____________________________________________________________________________
+# 3. Standalone OctoMap library
+
+# Ensure OctoMap dependencies are installed (may be overkill)
+# RUN apt-get update && apt-get install -y \
+#     build-essential \
+#     cmake \
+#     libqt5opengl5-dev \
+#     libqglviewer-dev-qt5 
+
+# RUN git clone https://github.com/OctoMap/octomap.git /opt/octomap && \
+#     cd /opt/octomap && \
+#     mkdir build && \
+#     cd build && \
+#     cmake .. && \
+#     make && \
+#     make install

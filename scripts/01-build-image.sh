@@ -11,16 +11,19 @@ if [ "$#" -lt 1 ]; then
     exit 1
 fi
 
-echo -e "\nRunning multi-step Docker image build process:"
+echo -e ""
+echo -e "Running multi-step Docker image build process:"
 echo -e "    1. Build the 'zed-ros2-wrapper' image."
 echo -e "    2. Build the 'tfm17-dev-env-v1' image from the 'zed-ros2-wrapper' image as base."
+echo -e ""
 
 # _____________________________________________________________________________
 # Build `zed-ros2-wrapper` image
 
 cd $(dirname "$0")
 PWD=$(pwd)
-echo -e "\n(WKDIR) :: ${PWD}\n"
+echo -e "[Step 1] (WKDIR) :: ${PWD}"
+echo -e ""
 
 DOCKERDIR=../zed-ros2-wrapper/docker
 DESKTOP_SCRIPT="desktop_build_dockerfile_from_sdk_ubuntu_and_cuda_version.sh"
@@ -47,11 +50,11 @@ fi
 
 cd $(dirname "$0")
 PWD=$(pwd)
-echo -e "\n(WKDIR) :: ${PWD}\n"
+echo -e ""
+echo -e "[Step 2] (WKDIR) :: ${PWD}"
+echo -e ""
 
 DOCKERDIR="../docker"
 DOCKERFILE="Dockerfile.tfm17-dev-env-v1"
 
-echo -e "[TODO] :: Continue build from ${DOCKERDIR}/${DOCKERFILE}"
-
-# TODO docker build
+docker build -t tfm17-dev-env-v1 -f "${DOCKERDIR}/${DOCKERFILE}" .
