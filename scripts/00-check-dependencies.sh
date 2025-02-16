@@ -134,7 +134,7 @@ check_nvidia_container_runtime() {
 }
 
 $VERBOSE && echo 
-$VERBOSE && echo "Starting system checks...\n"
+$VERBOSE && echo -e "Starting system checks...\n"
 check_nvidia_drivers
 check_virtualization
 check_docker_engine

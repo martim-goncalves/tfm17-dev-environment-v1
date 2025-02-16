@@ -1,5 +1,12 @@
-# Use Stereolabs ZED SDK 4.2.3 base image with CUDA 11.8 and Ubuntu 22.04
-FROM zed_ros2_desktop_u22.04_sdk_4.2.3_cuda_12.6.3:latest
+# Version arguments
+ARG TARGET_DEVICE="desktop"
+ARG UBUNTU_VERSION="22.04"
+ARG ZED_SDK_VERSION="4.2.3"
+ARG CUDA_VERSION="12.6.3"
+
+# Use Stereolabs ZED SDK 4.2.3 base image with CUDA 11.8 and Ubuntu 22.04 if up to date
+# Use whatever is declared in the versions for the zed-ros2-wrapper otherwise
+FROM zed_ros2_${TARGET_DEVICE}_u${UBUNTU_VERSION}_sdk_${ZED_SDK_VERSION}_cuda_${CUDA_VERSION}:latest
 
 # Install X11 utils
 RUN apt update && apt install x11-xserver-utils -y

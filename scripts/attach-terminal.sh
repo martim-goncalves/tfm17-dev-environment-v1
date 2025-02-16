@@ -11,7 +11,7 @@ if [ "$#" -lt 1 ]; then
     exit 1
 fi
 
-echo "Attaching interactive terminal to container '${$1}'."
+# echo "Attaching interactive terminal to container '$1'."
 
 docker exec -it "$1" bash -c " \
     source /opt/ros/$ROS_DISTRO/setup.bash && \
