@@ -13,7 +13,7 @@ function usage() {
 }
 
 # Set working directory to the scripts directory
-cd "$(dirname "$0")"
+cd "$(dirname "$0")" || exit
 PWD=$(pwd)
 
 # Default version numbers (without prefixes)
@@ -113,7 +113,7 @@ fi
 
 # _____________________________________________________________________________
 # :: [STEP 2] :: Build the tfm17-dev-env-v1 image 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")" || exit
 PWD=$(pwd)
 echo ""
 echo "[Step 2] (WKDIR) :: ${PWD}"
