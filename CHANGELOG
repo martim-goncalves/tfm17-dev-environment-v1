@@ -13,3 +13,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
  
 ### Fixed
+
+## [0.0.1] - 2025-02-06
+
+### Added 
+- [TFM17-DEV-ENVIRONMENT-V1]()
+  MAJOR Completed and tested the base for development on Windows 11 using WSL 2.
+
+### Changed
+
+### Fixed
+
+## [0.0.2] - 2025-02-15
+
+### Added 
+- [TFM17-DEV-ENVIRONMENT-V1]()
+  MINOR Introduced utility scripts to ease working with Docker (using Portainer) in an Ubuntu 24.04 host.
+
+### Changed
+
+### Fixed
+- [TFM17-DEV-ENVIRONMENT-V1]()
+  MAJOR Completed and tested the base for development on Ubuntu 24.04 with X11 graphics passthrough.

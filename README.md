@@ -32,3 +32,8 @@ chmod -R +x ~/tfm17-dev-environment-v1
 nvidia-smi
 ros2 pkg list | grep octomap
 ```
+
+
+## Sources
+1. [Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+2. [Stereolabs ZED ROS 2 Wrapper](https://github.com/stereolabs/zed-ros2-wrapper)
