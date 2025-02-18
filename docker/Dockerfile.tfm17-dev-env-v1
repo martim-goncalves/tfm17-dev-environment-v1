@@ -8,8 +8,9 @@ ARG CUDA_VERSION="12.6.3"
 # Use whatever is declared in the versions for the zed-ros2-wrapper otherwise
 FROM zed_ros2_${TARGET_DEVICE}_u${UBUNTU_VERSION}_sdk_${ZED_SDK_VERSION}_cuda_${CUDA_VERSION}:latest
 
-# Install X11 utils
-RUN apt update && apt install x11-xserver-utils -y
+# Allow overriding at build time
+ARG ROS_DISTRO="humble"
+ENV ROS_DISTRO=${ROS_DISTRO}
 
 # [NOTE] :: There are 3 alternatives for OctoMap installation.
 
@@ -18,14 +19,18 @@ RUN apt update && apt install x11-xserver-utils -y
 #     - Does not allow editing;
 #     - Managed by its own ROS 2 packages (no standalone installation).
 
-# Install RViz2 and ROS 2 OctoMap packages
+# Install X11 display server utilities, RViz2 and ROS 2 OctoMap packages
 RUN apt-get update && apt-get install -y \
+    x11-xserver-utils \ 
     ros-${ROS_DISTRO}-rviz2 \
-    ros-humble-octomap \
-    ros-humble-octomap-ros \
-    ros-humble-octomap-mapping \
-    ros-humble-octomap-server
+    ros-${ROS_DISTRO}-depthimage-to-laserscan \
+    ros-${ROS_DISTRO}-octomap \
+    ros-${ROS_DISTRO}-octomap-ros \
+    ros-${ROS_DISTRO}-octomap-mapping \
+    ros-${ROS_DISTRO}-octomap-server && \
+    rm -rf /var/lib/apt/lists/*
 
+# [TODO] :: Build zed-ros2-examples into the workspace from source
 
 # _____________________________________________________________________________
 # 2. Build OctoMap library packages for ROS 2 from source for extension

@@ -4,7 +4,7 @@ There are a few useful commands to verify if the dependencies are properly set u
 ```bash
 nvidia-smi
 nvcc --version
-lsusb
+lsusb | grep STEREOLABS ZED
 ls /dev/video* # Once with the camera connected and once with it disconnected to probe for changes in output
 ros2 pkg list | grep zed
 ros2 pkg list | grep octomap
@@ -12,10 +12,10 @@ ros2 pkg list | grep octomap
 
 When first testing the development environment, the `zed_display_rviz2` package was missing. While manually installing it inside the container's ROS 2 workspace is an option, this should be moved to the Dockerfile, along with `ros-humble-depthimage-to-laserscan` which is reportedly missing a dependency.
 ```bash
-cd /root/ros2_ws/src
-git clone https://github.com/stereolabs/zed-ros2-examples.git
-cd /root/ros2_ws
-colcon build --symlink-install --cmake-args=-DCMAKE_BUILD_TYPE=Release
+cd /root/ros2_ws/src && \ 
+git clone https://github.com/stereolabs/zed-ros2-examples.git && \
+cd /root/ros2_ws && \
+colcon build --symlink-install --cmake-args=-DCMAKE_BUILD_TYPE=Release && \
 source install/local_setup.bash
 ```
 
