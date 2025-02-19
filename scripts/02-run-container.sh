@@ -24,10 +24,6 @@ while [[ "$#" -gt 0 ]]; do
   shift
 done
 
-# [FIXME] :: Change ROS_DISTRO to be passed as a flag to attach-terminal.sh
-# Run the containers
-export ROS_DISTRO=humble
-
 # Choose between creating containers or just starting them
 if [ "$CREATE_CONTAINERS" = true ]; then
   echo "Creating and starting containers..."
@@ -41,4 +37,6 @@ else
 fi
 
 # Attach an interactive terminal to the container
-bash ../scripts/attach-terminal.sh tfm17-mapper
+CONTAINER_NAME="tfm17-mapper"
+ROS_DISTRO="humble"
+bash ../scripts/attach-terminal.sh $CONTAINER_NAME $ROS_DISTRO
