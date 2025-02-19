@@ -1,6 +1,7 @@
 # TFM17 - Development Environment V1
 This project encapsulates the configuration of a portable development environment for TFM17. It aims to facilitate work on a functional prototype for mapping caves using stereoscopy. The stereoscopic sensor used to achieve this goal was initially determined to be the ZED 2 camera. This choice was made due to equipment availability. While that may be subject to change in future iterations of the project, this environment will always be configured to support the ZED SDK as a baseline.
 
+--- 
 ## Cloning the repository
 
 When cloning the repository for the first time:
@@ -30,10 +31,13 @@ chmod -R +x ~/tfm17-dev-environment-v1
 
 ```bash
 nvidia-smi
-ros2 pkg list | grep octomap
+ros2 pkg list | grep "octomap \| zed"
 ```
 
+## Post-installation steps for Linux
+After installing the project, a few steps should be taken. One of those is creating the `docker` group and adding the user to it. This avoids the necessity to repetitively type `sudo` before each command (i.e., `docker` and `bash` scripts). A guide on these steps is found at the official Docker [[3]](#sources).
 
 ## Sources
 1. [Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
 2. [Stereolabs ZED ROS 2 Wrapper](https://github.com/stereolabs/zed-ros2-wrapper)
+3. [Docker Engine Linux Post-Installation Steps](https://docs.docker.com/engine/install/linux-postinstall/)
