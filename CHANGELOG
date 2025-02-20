@@ -35,3 +35,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - [TFM17-DEV-ENVIRONMENT-V1]()
   MAJOR Completed and tested the base for development on Ubuntu 24.04 with X11 graphics passthrough.
+
+## [0.0.3] - 2025-02-18
+
+### Added
+- [TFM17-DEV-ENVIRONMENT-V1](./_artifacts/)
+  MAJOR Wrote documentation for scripts to create and save octomaps in `.bt` files using the standard ROS 2 OctoMap library installation. 
+- [TFM17-DEV-ENVIRONMENT-V1](./_docs/) 
+  MINOR Documented general observations about the environment.
+
+### Changed
+- [TFM17-DEV-ENVIRONMENT-V1](./_docs/Installing%20the%20OctoMap%20Library%20(Standalone).md)
+  MAJOR Performed a standalone installation of the `devel` branch of the [OctoMap library](https://github.com/OctoMap/octomap).
+
+### Fixed 

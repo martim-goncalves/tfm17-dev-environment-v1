@@ -11,5 +11,5 @@ ros2 topic hz /zed/zed_node/point_cloud/cloud_registered
 ```
 
 ```bash
-ros2 run octomap_server octomap_server_node --ros-args -r /cloud_in:=/zed/zed_node/point_cloud/cloud_registered -p frame_id:=map -p base_frame_id:=base_link -p sensor_frame_id:=zed_left_camera_frame -p height_map:=false -p resolution:=0.025 -p max_range:=5.0 -p raycast_range:=5.0 -p latch:=true -p filter_ground:=false --log-level debug
+ros2 run octomap_server octomap_server_node --ros-args -r /cloud_in:=/zed/zed_node/point_cloud/cloud_registered -p frame_id:=map -p base_frame_id:=base_link -p sensor_frame_id:=zed_left_camera_frame -p height_map:=false -p resolution:=0.025 -p max_range:=5.0 -p raycast_range:=5.0 -p latch:=true -p filter_ground:=false # --log-level debug
 ```
