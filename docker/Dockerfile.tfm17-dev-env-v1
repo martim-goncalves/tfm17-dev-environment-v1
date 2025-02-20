@@ -30,6 +30,8 @@ RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-octomap-server && \
     rm -rf /var/lib/apt/lists/*
 
+# [TODO] :: Copy custom packages and build them into the ROS 2 workspace
+
 # [TODO] :: Build zed-ros2-examples into the workspace from source
 
 # _____________________________________________________________________________

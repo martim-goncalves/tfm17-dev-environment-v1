@@ -49,3 +49,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   MAJOR Performed a standalone installation of the `devel` branch of the [OctoMap library](https://github.com/OctoMap/octomap).
 
 ### Fixed 
+
+## [0.1.0] - 2025-02-19
+
+### Added
+- [CUSTOM-ROS2-PKGS]()
+  MAJOR Implemented a custom node to save RGB color data associated to each node (voxel) in an octomap.
+- [TFM17-UTILS]() 
+  MAJOR Implemented scripts to automate octomap file format conversion.
+
+### Changed
+- [TFM17-DEV-ENVIRONMENT-V1]()
+  MAJOR The execution of the environments's operations now depend on custom packages and utilities.
+
+### Fixed 
+- [TFM17-DEV-ENVIRONMENT-V1]()
+  MINOR Fixed colored octomap visualization by switching the file format conversion from `.txt` > `.bt` to `.txt` > `.ot`, which can display color data.

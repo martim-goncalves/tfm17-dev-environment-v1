@@ -1,7 +1,6 @@
 # Saving an OctoMap to a File
-This document serves as a short form guide on how to extract, preserve and visualize OctoMaps. 
+This document serves as a short form guide on how to extract, preserve and visualize OctoMaps using only the `octomap-server` ROS 2 package and its `octomap_saver_node` to convert text file data to binary tree format.
 
---- 
 ## Getting and saving the map
 Assuming your environment is already set up and that you can launch a node to publish point cloud data aquired by a sensor (e.g. from a stereoscopic RGBD camera), run an `octomap-server` to convert it into a volumetric map. RViz2 may be used as a way to view the map that is being formed in real time. For this, use a **MarkerArray** to promptly display the occupancy grid's voxels. Having achieved a sufficient mapping of the environment, run the following (replace "map" with the desired file name) [inside the container](./Attaching Terminals and Editors to the Development Environment.md):
 
@@ -24,7 +23,6 @@ Additionally, it may be a good idea to save the map on the host machine. Outside
 docker cp container:/path/to/map.bt .
 ```
 
---- 
 ## Visualizing the map
 There are a few alternatives to visualize an OctoMap saved to a **binary tree** (.bt) file. Having the OctoMap library installed in the container, Octovis is an easy option to pick:
 ```bash
