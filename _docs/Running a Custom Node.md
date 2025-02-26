@@ -30,6 +30,11 @@ colcon build --packages-select colored_octomap_pkg
 source install/setup.bash
 ```
 
+In this example, the ZED 2 camera is used to acquire a point cloud:
+```bash
+ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zed2
+```
+
 ```bash
 ros2 run colored_octomap_pkg colored_octomap_node --ros-args -r /cloud_in:=/zed/zed_node/point_cloud/cloud_registered -p resolution_m:=0.025 -p timer_period_seconds:=20
 ```
