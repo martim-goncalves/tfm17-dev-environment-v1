@@ -27,8 +27,19 @@ RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-octomap \
     ros-${ROS_DISTRO}-octomap-ros \
     ros-${ROS_DISTRO}-octomap-mapping \
-    ros-${ROS_DISTRO}-octomap-server && \
-    rm -rf /var/lib/apt/lists/*
+    ros-${ROS_DISTRO}-octomap-server \
+    && rm -rf /var/lib/apt/lists/*
+
+# Open3D dependencies.
+RUN apt-get install --no-install-recommends -y \
+    libegl1 \
+    libgl1 \
+    libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Open3D from the PyPI repositories.
+RUN python3 -m pip install --no-cache-dir --upgrade pip && \
+    python3 -m pip install --no-cache-dir --upgrade open3d
 
 # Replace with a volume mount.
 # COPY ../.. /root/ros2_ws/src
