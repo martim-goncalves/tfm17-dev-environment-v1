@@ -19,7 +19,7 @@ services:
       - NVIDIA_DRIVER_CAPABILITIES=all
       - DISPLAY=${DISPLAY}
     volumes:
-      - ../..:/root/ros2_ws/src
+      - ../..:/root/ros2_ws/src:rw
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /dev:/dev:rw
       - /dev/shm:/dev/shm:rw
