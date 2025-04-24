@@ -30,19 +30,9 @@ RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-octomap-server \
     && rm -rf /var/lib/apt/lists/*
 
-# Open3D dependencies.
-RUN apt-get install --no-install-recommends -y \
-    libegl1 \
-    libgl1 \
-    libgomp1 \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Open3D from the PyPI repositories.
-RUN python3 -m pip install --no-cache-dir --upgrade pip && \
-    python3 -m pip install --no-cache-dir --upgrade open3d
-
-# Replace with a volume mount.
-# COPY ../.. /root/ros2_ws/src
+# TODO Clone, build and install custom ROS 2 packages.
+# TODO Build Octomap packages using the custom Octomap library.
+# TODO Set a Python `_venv` up if necessary.
 
 # _____________________________________________________________________________
 # 2. Build OctoMap library packages for ROS 2 from source for extension
