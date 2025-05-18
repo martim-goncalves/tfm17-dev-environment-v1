@@ -21,5 +21,10 @@ ros2 launch point_cloud_accumulator_pkg point_cloud_accumulator.launch.py min_po
 
 ### Colored Octomap Node
 ```bash
-ros2 run colored_octomap_pkg colored_octomap_node --ros-args -r /cloud_in:=/accumulator/cloud_frame -p resolution_m:=0.05 -p timer_period_seconds:=0 -p savefolder:=/root/ros2_ws/src/artifacts/ -p savefile:=colored_octomap
+colcon build --packages-select hybrid_mapper_pkg && \
+    source install/setup.bash
+```
+
+```bash
+ros2 launch hybrid_mapper_pkg hybrid_mapper.launch.py fused_cloud_topic:=/accumulator/cloud_frame resolution_m:=0.05 enable_logging:=true
 ```
