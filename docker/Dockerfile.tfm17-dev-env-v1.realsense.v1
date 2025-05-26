@@ -1,0 +1,90 @@
+ARG CUDA_BASE=nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04
+
+# ---- Stage 1: Build librealsense from source (no DKMS) ----
+FROM ubuntu:22.04 AS librealsense-builder
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential cmake git libssl-dev libusb-1.0-0-dev pkg-config \
+    libgtk-3-dev libglfw3-dev libgl1-mesa-dev libglu1-mesa-dev \
+    curl python3 python3-dev ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /usr/src
+
+# Download latest librealsense tag and build
+RUN git -c 'versionsort.suffix=-' ls-remote --exit-code --refs --sort='version:refname' \
+    --tags https://github.com/IntelRealSense/librealsense '*.*.*' | tail -n1 | \
+    awk -F/ '{print $3}' > version.txt && \
+    LIBRS_VERSION=$(cat version.txt | sed 's/^v//') && \
+    curl -L https://github.com/IntelRealSense/librealsense/archive/refs/tags/v${LIBRS_VERSION}.tar.gz -o realsense.tar.gz && \
+    tar xzf realsense.tar.gz && rm realsense.tar.gz && \
+    mv librealsense-${LIBRS_VERSION} librealsense
+
+RUN cd librealsense && mkdir build && cd build && \
+    cmake -DCMAKE_INSTALL_PREFIX=/opt/librealsense \
+          -DBUILD_GRAPHICAL_EXAMPLES=OFF \
+          -DBUILD_PYTHON_BINDINGS=ON \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DPYTHON_EXECUTABLE=/usr/bin/python3 .. && \
+    make -j$(nproc) && make install
+
+# ---- Stage 2: Final image ----
+FROM ${CUDA_BASE} AS final
+ENV DEBIAN_FRONTEND=noninteractive
+ENV ROS_DISTRO=humble
+
+# Copy librealsense (library and udev rules) from builder
+COPY --from=librealsense-builder /opt/librealsense /usr/local/
+COPY --from=librealsense-builder /usr/src/librealsense/config/99-realsense-libusb.rules /etc/udev/rules.d/
+
+# Ensure PYTHONPATH includes librealsense libs, handle undefined variable safely
+ENV PYTHONPATH="${PYTHONPATH:-}:/usr/local/lib"
+
+# Install ROS 2 Humble and dependencies
+# Step 1: Install necessary utilities for adding apt repos
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    software-properties-common \
+    curl \
+    gnupg \
+    lsb-release \
+    && add-apt-repository universe -y \
+    && add-apt-repository multiverse -y \
+    && rm -rf /var/lib/apt/lists/*
+
+# Step 2: Add ROS 2 GPG key
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key \
+       -o /usr/share/keyrings/ros-archive-keyring.gpg
+
+# Step 3: Add ROS 2 repository to sources.list.d
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
+# Step 4: Update apt cache to include the new ROS 2 repository
+RUN apt update && apt install -y ros-dev-tools
+
+# Step 5: Install ROS 2 desktop
+RUN apt update && apt upgrade -y && apt install -y ros-${ROS_DISTRO}-desktop
+
+# Build the RealSense ROS2 wrapper
+WORKDIR /ros2_ws
+RUN apt-get update && apt-get install -y --no-install-recommends python3-rosdep git \
+    && rosdep init || true \
+    && rosdep update || true \
+    && mkdir -p src && cd src \
+    && git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-master \
+    && cd /ros2_ws \
+    && rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y \
+    && . /opt/ros/${ROS_DISTRO}/setup.sh \
+    && colcon build --symlink-install \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt update && apt install -y \
+    ros-humble-rtabmap-ros \
+    ros-humble-realsense2-camera \
+    ros-humble-tf2-tools \
+    ros-humble-cv-bridge \
+    ros-humble-image-transport \
+    ros-humble-rviz2
+
+# Set entrypoint (optional)
+ENTRYPOINT ["/bin/bash"]

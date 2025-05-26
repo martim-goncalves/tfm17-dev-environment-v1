@@ -1,0 +1,46 @@
+ARG CUDA_BASE=nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04
+
+FROM ${CUDA_BASE}
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV ROS_DISTRO=humble
+ENV ROS_DOMAIN_ID=0
+ENV ROS_NAMESPACE=realsense
+
+# 1. Install core dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl gnupg lsb-release software-properties-common usbutils \
+    build-essential cmake git libssl-dev libusb-1.0-0-dev pkg-config \
+    libgtk-3-dev libglfw3-dev libgl1-mesa-dev libglu1-mesa-dev \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# 2. Install ROS 2 Humble
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg \
+    && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo "$UBUNTU_CODENAME") main" > /etc/apt/sources.list.d/ros2.list \
+    && apt-get update && apt-get install -y \
+    ros-${ROS_DISTRO}-desktop \
+    ros-${ROS_DISTRO}-realsense2-camera \
+    ros-${ROS_DISTRO}-rtabmap-ros \
+    ros-${ROS_DISTRO}-tf2-tools \
+    ros-${ROS_DISTRO}-cv-bridge \
+    ros-${ROS_DISTRO}-image-transport \
+    ros-${ROS_DISTRO}-rviz2 \
+    && rm -rf /var/lib/apt/lists/*
+
+# 3. Build librealsense2 from source
+RUN git clone https://github.com/IntelRealSense/librealsense.git && \
+    cd librealsense && git checkout v2.55.1 && \
+    mkdir build && cd build && \
+    cmake .. -DBUILD_EXAMPLES=true -DBUILD_GRAPHICAL_EXAMPLES=false && \
+    make -j$(nproc) && make install && \
+    cd ../.. && rm -rf librealsense
+
+# 4. Add udev rules and ignore udev errors during build
+COPY 99-realsense-libusb.rules /etc/udev/rules.d/
+RUN udevadm control --reload-rules || true && udevadm trigger || true
+
+# 5. Setup entrypoint
+COPY ./realsense-entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
