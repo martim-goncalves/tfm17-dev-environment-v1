@@ -16,7 +16,7 @@ colcon build --packages-select point_cloud_accumulator_pkg && \
 
 Running the node with custom parameters (e.g. min/max point threshold for interpolation):
 ```bash
-ros2 launch point_cloud_accumulator_pkg point_cloud_accumulator.launch.py min_points_thr:=1000 max_points_thr:=100000 enable_logging:=false
+ros2 launch point_cloud_accumulator_pkg point_cloud_accumulator.launch.py min_points_thr:=1000 max_points_thr:=100000 enable_logging:=true
 ```
 
 ### Colored Octomap Node
