@@ -15,7 +15,7 @@ services:
     tty: true
     # gpus: all # [NOTE] :: Can replace `runtime: nvidia` and `- NVIDIA_VISIBLE_DEVICES=all`?
     environment:
-      - ROS_DOMAIN_ID=42
+      - ROS_DOMAIN_ID=55
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=all
@@ -32,24 +32,6 @@ services:
       - 'c 189:* rmw'
     devices:
       - /dev/bus/usb:/dev/bus/usb:rw
-
-    orb_slam:
-      image: orb-slam3-image
-      runtime: nvidia
-      container_name: orb-slam3
-      network_mode: host
-      ipc: host
-      pid: host
-      privileged: true
-      stdin_open: true
-      tty: true
-      environment:
-        - ROS_DOMAIN_ID=42
-        - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-        - NVIDIA_VISIBLE_DEVICES=all
-        - NVIDIA_DRIVER_CAPABILITIES=all
-        - DISPLAY=${DISPLAY}
-        - QT_X11_NO_MITSHM=1
 
     # octomap_rt:
       # ...
