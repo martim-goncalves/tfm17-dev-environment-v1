@@ -44,15 +44,3 @@ ros2 launch rtabmap_launch rtabmap.launch.py rtabmap_args:="--delete_db_on_start
   odom_topic:=zed/zed_node/odom \
   rtabmap_viz:=true
 ```
-
-
-
-#### ORB-SLAM3
-
-```bash
-ros2 param set /robot/ORB_SLAM3_RGBD_ROS2 rgb_image_topic_name zed/zed_node/left/image_rect_color
-ros2 param set /robot/ORB_SLAM3_RGBD_ROS2 depth_image_topic_name zed/zed_node/depth/depth_registered
-ros2 param set /robot/ORB_SLAM3_RGBD_ROS2 robot_base_frame base_link
-ros2 param set /robot/ORB_SLAM3_RGBD_ROS2 global_frame map
-ros2 param set /robot/ORB_SLAM3_RGBD_ROS2 odom_frame odom
-```
