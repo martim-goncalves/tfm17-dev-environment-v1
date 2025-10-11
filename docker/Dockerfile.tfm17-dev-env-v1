@@ -28,7 +28,7 @@ RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-octomap-ros \
     ros-${ROS_DISTRO}-octomap-mapping \
     ros-${ROS_DISTRO}-octomap-server \
-    ros-$[ROS_DISTRO]-rtabmap-ros \
+    ros-${ROS_DISTRO}-rtabmap-ros \
     && rm -rf /var/lib/apt/lists/*
 
 # TODO Clone, build and install custom ROS 2 packages.
